@@ -12,9 +12,7 @@ if not os.path.exists(output_dir):
 def count_words(text):
     words = text.split()  # Extract words, ignoring punctuation, case insensitive
     return len(words), Counter(words)
-def count_words_notiftxt(text):
-    words = re.findall(r'\b\w+\b', text.lower())  # Extract words, ignoring punctuation, case insensitive
-    return len(words), Counter(words)
+
 
 
 # Handle contractions by splitting them into individual words
@@ -34,14 +32,14 @@ def handle_contractions(text):
 with open('/home/data/IF.txt', 'r') as if_file:
     if_text = if_file.read()
     if_text = handle_contractions(if_text)
-    total_words_if, word_count_if = count_words_notiftxt(if_text)
-    total_words_ifxt, word_count_ifxt = count_words(if_text)
+    total_words_if, word_count_if = count_words(if_text)
+    
 
 # Read and process AlwaysRememberUsThisWay.txt
 with open('/home/data/AlwaysRememberUsThisWay.txt', 'r') as arutw_file:
     arutw_text = arutw_file.read()
     arutw_text = handle_contractions(arutw_text)
-    total_words_arutw, word_count_arutw = count_words_notiftxt(arutw_text)
+    total_words_arutw, word_count_arutw = count_words(arutw_text)
 
 
 # Get top 3 frequent words in both texts
@@ -53,7 +51,7 @@ ip_address = socket.gethostbyname(socket.gethostname())
 
 # Write results to result.txt
 with open(f'{output_dir}/result.txt', 'w') as result_file:
-    result_file.write(f"Total words in IF.txt: {total_words_ifxt}\n")
+    result_file.write(f"Total words in IF.txt: {total_words}\n")
     result_file.write(f"Total words in AlwaysRememberUsThisWay.txt: {total_words_arutw}\n")
     result_file.write(f"Grand total: {total_words_if + total_words_arutw}\n")
     result_file.write(f"Top 3 words in IF.txt: {top_3_if}\n")
